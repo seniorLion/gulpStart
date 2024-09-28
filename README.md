@@ -18,7 +18,8 @@
 ### Обновляем функцию `styles` добавив сжатие кода `css`:
 >`function styles() {`  
 `return src('app/css/style.scss')`  
-`.pipe(scss(`**{outputStyle: 'compressed'}**`))`  
+`.pipe(scss(`***{outputStyle: 'compressed'}***  `))`  
 `.pipe(dest('app/css'))`  
 `}`
 ---
+### Подключаем плагин Concat: `npm i gulp-concat -D`

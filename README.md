@@ -84,3 +84,6 @@
 ### Добавляем `parallel` и создаем `gulp.default`:
 `const {src, dest, watch, parallel} = require('gulp');`  
 `exports.default = parallel(styles, scripts, browsersync, watching);`
+### Устанавливаем плагин для поддержки старых браузеров:
+`npm i gulp-autoprefixer -D`
+### 1 18 25

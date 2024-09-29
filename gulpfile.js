@@ -1,13 +1,15 @@
-const {src, dest, watch} = require('gulp');
+const {src, dest, watch, parallel} = require('gulp');
 const scss = require('gulp-sass')(require('sass'));
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify-es').default;
+const browserSync = require('browser-sync').create();
 
 function styles() {
   return src('app/css/style.scss')
     .pipe(concat('style.min.css'))
     .pipe(scss({outputStyle: 'compressed'}))
     .pipe(dest('app/css'))
+    .pipe(browserSync.stream())
 }
 
 function scripts() {
@@ -15,13 +17,25 @@ function scripts() {
     .pipe(concat('main.min.js'))
     .pipe(uglify())
     .pipe(dest('app/js'))
+    .pipe(browserSync.stream())
 }
 
 function watching() {
   watch(['app/css/style.scss'], styles)
   watch(['app/js/main.js'], scripts)
+  watch(['app/*.html']).on('change', browserSync.reload);
+}
+
+function browsersync() {
+  browserSync.init({
+    server: {
+        baseDir: "app/"
+    }
+});
 }
 
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watching = watching;
+exports.browsersync = browsersync;
+exports.default = parallel(styles, scripts, browsersync, watching);

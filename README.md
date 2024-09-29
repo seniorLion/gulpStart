@@ -66,3 +66,21 @@
 `}`  
 
 `exports.watching = watching;`
+### Устанавливаем плагин для авто-обновления браузера:
+`npm i browser-sync`  
+`const browserSync = require('browser-sync').create();`  
+>`function browsersync() {`  
+  `browserSync.init({`  
+    `server: {`  
+        `baseDir: "app/"`  
+    `}`  
+`});`  
+`}`
+
+Обновляем функцию styles и scripts: `.pipe(browserSync.stream())`  
+`exports.browsersync = browsersync;`
+### Обновляем функцию `watching` для слежения за файлами `html`:
+`watch(["app/*.html"]).on('change', browserSync.reload);`
+### Добавляем `parallel` и создаем `gulp.default`:
+`const {src, dest, watch, parallel} = require('gulp');`  
+`exports.default = parallel(styles, scripts, browsersync, watching);`

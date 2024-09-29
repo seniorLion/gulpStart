@@ -85,5 +85,25 @@
 `const {src, dest, watch, parallel} = require('gulp');`  
 `exports.default = parallel(styles, scripts, browsersync, watching);`
 ### Устанавливаем плагин для поддержки старых браузеров:
-`npm i gulp-autoprefixer -D`
-### 1 18 25
+`npm i gulp-autoprefixer -D`  
+`const autoprefixer = require('gulp-autoprefixer');`  
+Обновляем функцию *styles*:  
+`.pipe(autoprefixer({overrideBrowserslist: ['last 10 version']}))`
+### Создаем функцию *building* для перемещения готовых файлов в папку *dist*:
+>`function building() {`  
+  `return src([`  
+    `'app/css/style.min.css',`  
+    `'app/js/main.min.js',`  
+    `'app/**/*.html'`  
+  `], {base: 'app'})`  
+  `.pipe(dest('dist'))`  
+`}`
+### Устанавливаем *gulp-clean* для перезаписи и очистки папки *dist*:
+`npm i gulp-clean`  
+`const clean = require('gulp-clean');`  
+>`function cleanDist() {`  
+  `return src('dist')`  
+    `.pipe(clean())`  
+`}`
+### Создаем *build*:
+`exports.build = series(cleanDist, building);`

@@ -107,3 +107,21 @@
 `}`
 ### Создаем *build*:
 `exports.build = series(cleanDist, building);`
+## Часть 2
+### Подключаем плагины:
+`gulp-avif`  
+`gulp-cached`  
+`gulp-imagemin`  
+`gulp-webp`
+### Пишем функцию *images*:
+>`function images() {`  
+  `return src(['app/images/src/*.*', '!app/images/src/*.svg'])`  
+  `.pipe(avif({quality: 50}))`  
+  `.pipe(src('app/images/src/*.*'))`  
+  `.pipe(webp())`  
+  `.pipe(src('app/images/src/*.*'))`  
+  `.pipe(imagemin())`  
+  `.pipe(dest('app/images/dist'))`  
+`}`
+
+`exports.images = images;`
